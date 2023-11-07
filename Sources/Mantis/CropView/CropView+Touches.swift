@@ -84,6 +84,7 @@ extension CropView {
             } else {
                 delegate?.cropViewDidEndResize(self)
                 viewModel.setBetweenOperationStatus()
+                updateCropBoxFrame(withTouchPoint: touchPoint)
             }
             
             cropInProgress = false
