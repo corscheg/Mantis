@@ -82,9 +82,9 @@ extension CropView {
                     self.cropWorkbenchView.updateMinZoomScale()
                 }
             } else {
+                updateCropBoxFrame(withTouchPoint: touchPoint)
                 delegate?.cropViewDidEndResize(self)
                 viewModel.setBetweenOperationStatus()
-                updateCropBoxFrame(withTouchPoint: touchPoint)
             }
             
             cropInProgress = false
