@@ -332,7 +332,7 @@ class CropView: UIView {
         rotationControlView.handleDeviceRotation()
     }
     
-    func updateCropBoxFrame(withTouchPoint touchPoint: CGPoint) {
+    func updateCropBoxFrame(withTouchPoint touchPoint: CGPoint, completion: () -> Void) {
         let contentBounds = getContentBounds()
         
         guard contentBounds.contains(touchPoint) else {
@@ -369,6 +369,7 @@ class CropView: UIView {
         
         if imageContainer.contains(rect: newCropBoxFrame, fromView: self, tolerance: 0.5) {
             viewModel.cropBoxFrame = newCropBoxFrame
+            completion()
         } else {
             let minX = max(viewModel.cropBoxFrame.minX, newCropBoxFrame.minX)
             let minY = max(viewModel.cropBoxFrame.minY, newCropBoxFrame.minY)

@@ -68,25 +68,20 @@ extension CropView {
         guard cropInProgress else { return }
         
         let touchPoint = touch.location(in: self)
-        
+
         if cropWorkbenchView.frame.contains(touchPoint) {
-            updateCropBoxFrame(withTouchPoint: touchPoint)
+            updateCropBoxFrame(withTouchPoint: touchPoint) {}
         } else {
-            if viewModel.needCrop() {
-                cropAuxiliaryIndicatorView.handleEdgeUntouched()
-                let contentRect = getContentBounds()
-                adjustUIForNewCrop(contentRect: contentRect) {[weak self] in
-                    guard let self = self else { return }
+            updateCropBoxFrame(withTouchPoint: touchPoint) { [weak self] in
+                guard let self else { return }
+                if viewModel.needCrop() {
+                    cropAuxiliaryIndicatorView.handleEdgeUntouched()
                     self.delegate?.cropViewDidEndResize(self)
-                    self.viewModel.setBetweenOperationStatus()
                     self.cropWorkbenchView.updateMinZoomScale()
+                    cropInProgress = false
                 }
-            } else {
-                delegate?.cropViewDidEndResize(self)
-                viewModel.setBetweenOperationStatus()
+                cropInProgress = true
             }
-            
-            cropInProgress = false
         }
     }
     
